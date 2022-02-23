@@ -1,4 +1,4 @@
-#!/usr/bin/python2.6
+#!/usr/bin/python3
 import os, os.path, sys
 import pyfits
 import glob
@@ -76,7 +76,7 @@ ok_bits = {
 }
 
 nok_bits = 0
-for i, ok in ok_bits.iteritems():
+for i, ok in ok_bits.items():
 	if not ok: nok_bits += 2**i
 
 def get_quality_errors(quality):
@@ -98,10 +98,10 @@ if __name__ == "__main__":
 			try:
 				header = pyfits.open(filepath)[0].header
 				if header['QUALITY'] == 0:
-					print filepath, " is good quality"
+					print(filepath, " is good quality")
 				elif header['QUALITY'] & nok_bits == 0:
-					print filepath, " is good quality, BUT: " + ";".join(get_quality_errors(header['QUALITY']))
+					print(filepath, " is good quality, BUT: " + ";".join(get_quality_errors(header['QUALITY'])))
 				else:
-					print filepath, " is bad quality: " + ";".join(get_quality_errors(header['QUALITY']))
-			except Exception, why:
-				print "Error reading quality for file ", filepath
+					print(filepath, " is bad quality: " + ";".join(get_quality_errors(header['QUALITY'])))
+			except Exception as why:
+				print("Error reading quality for file ", filepath)

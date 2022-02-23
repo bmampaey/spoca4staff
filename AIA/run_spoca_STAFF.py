@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import os, sys
 from collections import OrderedDict
 import pickle
@@ -111,7 +111,7 @@ def send_email(sender, adresses, subject, messages = []):
 		s = smtplib.SMTP(smtp_server)
 		s.sendmail(sender, adresses, msg.as_string())
 		s.quit()
-	except Exception, why:
+	except Exception as why:
 		log.critical("Could not send mail %s to smtp server %s: %s", msg.as_string(), smtp_server, str(why))
 
 
@@ -206,7 +206,7 @@ if __name__ == "__main__":
 	status = dict()
 	try:
 		pickle_file = open(status_filename, 'rb')
-	except IOError, why:
+	except IOError as why:
 		log.info("Could not open status file %s for restoring status: %s", status_filename, str(why))
 	else:
 		log.info("Restoring previous status from status file %s", status_filename)
@@ -214,7 +214,7 @@ if __name__ == "__main__":
 			status = pickle.load(pickle_file)
 			pickle_file.close()
 			log.info("Status restored: %s", status)
-		except Exception, why:
+		except Exception as why:
 			log.critical("Could not restore status from file %s: %s", status_filename, str(why))
 			sys.exit(2)
 	
@@ -222,7 +222,7 @@ if __name__ == "__main__":
 	if status:
 		try:
 			start_date = status['start_date']
-		except ValueError, why:
+		except ValueError as why:
 			log.warning("Could not restore start_date from status, skipping")
 	
 	# Setup the spoca_ar segmentation parameters
@@ -327,13 +327,13 @@ if __name__ == "__main__":
 		# We save the status
 		try:
 			pickle_file = open(status_filename, 'wb')
-		except IOError, why:
+		except IOError as why:
 			log.error("Could not open status file %s for saving status: %s", status_filename, str(why))
 		else:
 			log.debug("Saving status to status file %s", status_filename)
 			try:
 				pickle.dump(status, pickle_file, -1)
 				pickle_file.close()
-			except Exception, why:
+			except Exception as why:
 				log.error("Could not save status from file %s: %s", status_filename, str(why))
 			pickle_file.close()

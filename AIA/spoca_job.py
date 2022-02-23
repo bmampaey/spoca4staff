@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.6
+#!/usr/bin/env python3
 import os, os.path, sys
 from datetime import datetime
 import pyfits
@@ -53,7 +53,7 @@ class segmentation:
 		process = subprocess.Popen(test_args, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		(output, error) = process.communicate()
 		if process.returncode != 0:
-			return False, "Arguments could be wrong :"+ ' '.join(test_args) + "\treturned error:" + error  
+			return False, "Arguments could be wrong :"+ ' '.join(test_args) + "\treturned error:" + error
 		else:
 			return True, output
 	
@@ -107,7 +107,7 @@ class resegmentation(segmentation):
 	def get_info(cls, mapname):
 		try:
 			hdulist = pyfits.open(mapname)
-		except Exception, why:
+		except Exception as why:
 			raise Exception("Error reading file " + mapname + ": "+ str(why))
 		
 		params = dict()
@@ -144,7 +144,7 @@ class resegmentation(segmentation):
 				with open(filename, "w") as f:
 					f.write(str(params["eta"]))
 				cls.args["etaFile"] = filename
-			except IOError, why:
+			except IOError as why:
 				raise Exception("Could not write eta file " + filename + " for resegmentation job " + name)
 		
 		if "class_centers" in params and "channels" in params:
@@ -153,7 +153,7 @@ class resegmentation(segmentation):
 				with open(filename, "w") as f:
 					f.write(str(params["channels"]) + "\t" + str(params["class_centers"]))
 				cls.args["centersFile"] = filename
-			except IOError, why:
+			except IOError as why:
 				raise Exception("Could not write centers file " + filename + " for resegmentation job " + name)
 		
 		arguments = list()
@@ -245,7 +245,7 @@ class tracking:
 		process = subprocess.Popen(test_args, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		(output, error) = process.communicate()
 		if process.returncode != 0:
-			return False, "Arguments could be wrong :"+ ' '.join(test_args) + "\treturned error:" + error  
+			return False, "Arguments could be wrong :"+ ' '.join(test_args) + "\treturned error:" + error
 		else:
 			return True, output
 	
@@ -275,7 +275,7 @@ class tracking:
 					return hdu.header['TRACKED'] == '1'
 			
 			hdulist.close()
-		except IOError, why:
+		except IOError as why:
 			return False
 		return False
 		
@@ -338,7 +338,7 @@ class overlay:
 		process = subprocess.Popen(test_args, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		(output, error) = process.communicate()
 		if process.returncode != 0:
-			return False, "Arguments could be wrong :"+ ' '.join(test_args) + "\treturned error:" + error  
+			return False, "Arguments could be wrong :"+ ' '.join(test_args) + "\treturned error:" + error
 		else:
 			return True, output
 	
@@ -432,7 +432,7 @@ class get_stats:
 		process = subprocess.Popen(test_args, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		(output, error) = process.communicate()
 		if process.returncode != 0:
-			return False, "Arguments could be wrong :"+ ' '.join(test_args) + "\treturned error:" + error  
+			return False, "Arguments could be wrong :"+ ' '.join(test_args) + "\treturned error:" + error
 		else:
 			return True, output
 	
@@ -502,7 +502,7 @@ class get_STAFF_stats(get_stats):
 		process = subprocess.Popen(test_args, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		(output, error) = process.communicate()
 		if process.returncode != 0:
-			return False, "Arguments could be wrong :"+ ' '.join(test_args) + "\treturned error:" + error  
+			return False, "Arguments could be wrong :"+ ' '.join(test_args) + "\treturned error:" + error
 		else:
 			return True, output
 
@@ -558,7 +558,7 @@ class get_STAFF_stats(get_stats):
 		else:
 			self.job = None
 
-# Return a time in the form yyyymmdd_hhmmss 
+# Return a time in the form yyyymmdd_hhmmss
 def pretty_date(date):
 	return date.strftime("%Y%m%d_%H%M%S")
 	
@@ -574,7 +574,7 @@ def parse_configfile(configfile):
 						args[params[0].strip()]=params[1].strip()
 					else:
 						args[params[0].strip()]=None
-	except IOError, why:
+	except IOError as why:
 		raise Exception("Error parsing configuration file " + str(configfile) + ": " + str(why))
 	
 	return args

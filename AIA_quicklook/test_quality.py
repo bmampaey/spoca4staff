@@ -1,4 +1,4 @@
-#!/usr/bin/python2.6
+#!/usr/bin/env python3
 import os, os.path, sys
 import pyfits
 import glob
@@ -98,10 +98,10 @@ if __name__ == "__main__":
 			try:
 				header = pyfits.open(filepath)[0].header
 				if header['QUALITY'] == 0:
-					print filepath, " is good quality"
+					print(filepath, " is good quality")
 				elif header['QUALITY'] & nok_bits == 0:
-					print filepath, " is good quality, BUT: " + ";".join(get_quality_errors(header['QUALITY']))
+					print(filepath, " is good quality, BUT: " + ";".join(get_quality_errors(header['QUALITY'])))
 				else:
-					print filepath, " is bad quality: " + ";".join(get_quality_errors(header['QUALITY']))
-			except Exception, why:
-				print "Error reading quality for file ", filepath
+					print(filepath, " is bad quality: " + ";".join(get_quality_errors(header['QUALITY'])))
+			except Exception as why:
+				print("Error reading quality for file ", filepath)
