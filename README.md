@@ -1,18 +1,28 @@
-# Pipeline to segment SDO/AIA images into Coronal Hole, Active Region and Quiet Sun and submit statistics to the STAFF viewer DB
+# Pipeline to generate statistics for the STAFF viewer
+
+The pipeline segments SDO/AIA images into Coronal Hole, Active Region and Quiet Sun using the SPoCA suite, and compute statistics about these regions. The pipeline also computes raw statistics about the SDO/AIA images themselves. The statistics are written to CSV files that pulled by the STAFF viewer server to be ingested into it's database.
 
 The following python scripts are used to run the pipeline:
- * __run_spoca_STAFF.py__: Daemon that runs the SPoCA executables and generate the csv files with the CH, AR and QS statistics
- * __get_images_stats.py__: Daemon that extract statistics about SDO/AIA images and generate the csv files with the statistics
+ * __get_staff_stats.py__: Run the programs ch_segmentation.x, ar_segmentation.x, get_STAFF_stats.x from the SPoCA suite to create the CSV files containing the statistics about Coronal Hole, Active Region and Quiet Sun
+ * __get_image_stats.py__: Compute statistics about the SDO/AIA images used by the get_staff_stats.py script and create CSV files.
+
+The scripts accept ini configuration files that contain the parameters for the script:
+ * __configs/AIA.quicklook.ini__: Parameters to run the script for on SDO/AIA quicklook level images
+ * __configs/AIA.science.ini__: Parameters to run the script for on SDO/AIA science level prepped images
 
 The following python scripts are tools for the pipeline:
- * __plot_STAFF_stats.py__: Read the csv statistic files and make timeline plots
- * __test_quality.py__: Test the quality of a SDO/AIA FITS file
- * __spoca_job.py__: Runs a SPoCA executable
-
-All scripts contain at their top environment parameters to properly run without the need to specify them manually when executed.
+ * __job.py__: Runs a program
+ * __staff_jobs.py__: Runs the ch_segmentation.x, ar_segmentation.x, get_STAFF_stats.x programs with the proper arguments
+ * __sdo_data.py__: Find good quality SDO data for running the segmentation
 
 Configuration files for the programs of the SPoCA suite:
- * __AIA_AR.segmentation.config__: Config file for the classification.x program
- * __AIA_CH.segmentation.config__: Config file for the classification.x program
- * __get_AIA_STAFF_stats.config__: Config file for the get_AIA_STAFF_stats.x program
+ * __configs/AIA.AR_segmentation.config__: Config file for the ar_segmentation.x program
+ * __configs/AIA.CH_segmentation.config__: Config file for the ch_segmentation.x program
+ * __scripts/AIA.get_STAFF_stats.config__: Config file for the get_STAFF_stats.x program
 
+The executables of the SPoCA suite can be compiled using the following Make files:
+ * __SPoCA/ar_segmentation.mk__: To compile SPoCA/bin/ar_segmentation.x
+ * __SPoCA/ch_segmentation.mk__: To compile SPoCA/bin/ch_segmentation.x
+ * __SPoCA/get_STAFF_stats.mk__: To compile SPoCA/bin/get_STAFF_stats.x
+
+The source code of the SPoCA suite can be found at https://github.com/bmampaey/SPoCA, the version used is commit 902f3f7
