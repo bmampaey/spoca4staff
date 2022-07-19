@@ -24,7 +24,7 @@ if __name__ == '__main__':
 	parser.add_argument('--verbose', '-v', choices = ['DEBUG', 'INFO', 'ERROR'], default = 'INFO', help='Set the logging level (default is INFO)')
 	parser.add_argument('--config-file', '-c', required = True, help = 'Path to the config file of the script')
 	parser.add_argument('--start-date', '-s', required = True, type = datetime.fromisoformat, help = 'Start date of AIA files (ISO 8601 format)')
-	parser.add_argument('--end-date', '-e', default = datetime.utcnow(), type = datetime.fromisoformat, help = 'Start date of AIA files (ISO 8601 format)')
+	parser.add_argument('--end-date', '-e', default = datetime.utcnow(), type = datetime.fromisoformat, help = 'End date of AIA files (ISO 8601 format)')
 	parser.add_argument('--interval', '-i', default = 6, type = int, help = 'Number of hours between two results')
 	
 	args = parser.parse_args()
